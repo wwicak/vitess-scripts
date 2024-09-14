@@ -145,7 +145,7 @@ sudo chown -R vitess:vitess /var/lib/vitess
 If you mounted any drives to run MySQL on you should give permissions to Vitess for these drives.
 
 ```
-sudo mkdir -p /vt/mysql1
+sudo mkdir -p /vt/mysql
 sudo mkdir -p /vt/mysql2
 sudo mkdir -p /vt/mysql3
 sudo chown -R vitess:vitess /vt/mysql*
@@ -221,10 +221,10 @@ Next we fetch all the scripts from my repository for systemd and update them as 
 ```
 cd /etc/systemd/system
 sudo vi vitess.env
-sudo vi mysql1.service
+sudo vi mysql.service
 sudo vi mysql2.service
 sudo vi mysql3.service
-sudo vi mysql1-vtab.service
+sudo vi mysql-vtab.service
 sudo vi mysql2-vtab.service
 sudo vi mysql3-vtab.service
 ```
@@ -240,7 +240,7 @@ sudo su vitess
 Initate databases on host1
 ```
 cd ~
-/usr/local/vitess/scripts/mysqlctl-init.sh 101 /vt/mysql1 /run/vitess/mysql1.pid
+/usr/local/vitess/scripts/mysqlctl-init.sh 101 /vt/mysql /run/vitess/mysql.pid
 /usr/local/vitess/scripts/mysqlctl-init.sh 102 /vt/mysql2 /run/vitess/mysql2.pid
 /usr/local/vitess/scripts/mysqlctl-init.sh 103 /vt/mysql3 /run/vitess/mysql3.pid
 ```
@@ -248,7 +248,7 @@ cd ~
 Initate databases on host2
 ```
 cd ~
-/usr/local/vitess/scripts/mysqlctl-init.sh 201 /vt/mysql1 /run/vitess/mysql1.pid
+/usr/local/vitess/scripts/mysqlctl-init.sh 201 /vt/mysql /run/vitess/mysql.pid
 /usr/local/vitess/scripts/mysqlctl-init.sh 202 /vt/mysql2 /run/vitess/mysql2.pid
 /usr/local/vitess/scripts/mysqlctl-init.sh 203 /vt/mysql3 /run/vitess/mysql3.pid
 ```
@@ -256,7 +256,7 @@ cd ~
 Initate databases on host3
 ```
 cd ~
-/usr/local/vitess/scripts/mysqlctl-init.sh 301 /vt/mysql1 /run/vitess/mysql1.pid
+/usr/local/vitess/scripts/mysqlctl-init.sh 301 /vt/mysql /run/vitess/mysql.pid
 /usr/local/vitess/scripts/mysqlctl-init.sh 302 /vt/mysql2 /run/vitess/mysql2.pid
 /usr/local/vitess/scripts/mysqlctl-init.sh 303 /vt/mysql3 /run/vitess/mysql3.pid
 ```
@@ -341,14 +341,14 @@ vtctldclient --server localhost:15999 CreateKeyspace --durability-policy=semi_sy
 Now we can start all the mysql and vttablet services that we have on this host.
 
 ```
-sudo systemctl start mysql1
-sudo systemctl status mysql1
+sudo systemctl start mysql
+sudo systemctl status mysql
 sudo systemctl start mysql2
 sudo systemctl status mysql2
 sudo systemctl start mysql3
 sudo systemctl status mysql3
-sudo systemctl start mysql1-vtab
-sudo systemctl status mysql1-vtab
+sudo systemctl start mysql-vtab
+sudo systemctl status mysql-vtab
 sudo systemctl start mysql2-vtab
 sudo systemctl status mysql2-vtab
 sudo systemctl start mysql3-vtab
@@ -386,8 +386,8 @@ sudo systemctl enable vtadmin-api
 sudo systemctl enable vtadmin-web
 sudo systemctl enable vtorc
 sudo systemctl enable vtgate
-sudo systemctl enable mysql1
-sudo systemctl enable mysql1-vtab
+sudo systemctl enable mysql
+sudo systemctl enable mysql-vtab
 sudo systemctl enable mysql2
 sudo systemctl enable mysql2-vtab
 sudo systemctl enable mysql3

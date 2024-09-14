@@ -1,7 +1,7 @@
 [Unit]
 Description=Vitess admin daemon.
 Wants=network-online.target
-After=mysql1-vtab.service
+After=mysql-vtab.service
 
 [Install]
 WantedBy=multi-user.target
